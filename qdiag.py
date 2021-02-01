@@ -31,7 +31,7 @@ def qdiag(C0: torch.Tensor,
           verbose: bool = False,
           approach: str = 'OKN3',
           Nit: int = 100,
-          tol_w: float = 1e-6,
+          tol_w: float = 1e-4,
           W: torch.tensor = None,
           M: int = None,
           return_errlog: bool = False,
@@ -40,8 +40,8 @@ def qdiag(C0: torch.Tensor,
     """
     QDIAG joint matrix diagonalization
 
-    W = qdiag( C0, C) finds a matrix W so that W'*C0*W has diagonal elements
-    equal to 1 and W'*C(:,:,i)*W has smallest possible off-diagonal
+    W = qdiag( C0, C) finds a matrix W so that W.T @ C0 @ W has diagonal elements
+    equal to 1 and W.T @ C[i] @ W has smallest possible off-diagonal
     elements. C0 is a positive definite NxN matrix, and C is a NxNxK array
     of K correlation matrices.
 
@@ -49,8 +49,8 @@ def qdiag(C0: torch.Tensor,
     weights the matrices in C according to them. An empty vector has the
     effect that all matrices are weighted equally.
 
-    qdiag( C0, C, p, opt) allows to pass an option structure. opt can have
-    the following fields (default values are taken for missing fields):
+    qdiag( C0, C, p, **kwarg) allows to pass optional arguments. These can be the following
+    (default values are taken for missing fields):
 
     'verbose'  : print informational messages in every iteration (default:
                  false)
@@ -62,17 +62,13 @@ def qdiag(C0: torch.Tensor,
     'W'        : used as the inital W (default: random NxN matrix)
     'M'        : number components, columns of W (default: M=N
                  matrix) opt.W has priority over opt.M
+    'return_errlog': return also a (Nit) tensor of diagonalization error history
+                    (default: False)
+    'return_Wlog'  : return a  (Nit,N,M) tensor of diagonalization matrix history
+                    (default: False)
 
 
-
-    [W, errlog] = qdiag( C0, C, p, opt) additionally outputs the
-    diagonalization error in every iteration.
-
-    [W, errlog, Wlog] = qdiag( C0, C, p, opt) additionally outputs the
-    elements of W in every iteration.
-
-
-    the algorithm is described in length in:
+    The algorithm is described in length in:
 
     [1] R. Vollgraf and K. Obermayer, Quadratic Optimization for Approximate
     Matrix Diagonalization, IEEE Transaction on Signal Processing, 2006, in
