@@ -58,4 +58,6 @@ E = err(W, C0, C, p)
 ```
 computes the joint-diagonalization error achieved with the columns of W 
 
+##
+
 The code is derived from https://www.ni.tu-berlin.de/menue/software_and_data/approximate_simultaneous_matrix_diagonalization_qdiag
