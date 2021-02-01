@@ -10,8 +10,14 @@ python -m qdiag
 ```
 
 
+## Usage
 
+### Import
+```python
+from qdiag import qdiag, err
+```
 
+### Matrix Diagonalization
 ```python
 W = qdiag( C0, C) 
 ``` 
@@ -46,5 +52,10 @@ can be the following  (default values are taken for missing fields):
 
 
 
+### Diagonalization Error
+```python
+E = err(W, C0, C, p)
+```
+computes the joint-diagonalization error achieved with the columns of W 
 
 The code is derived from https://www.ni.tu-berlin.de/menue/software_and_data/approximate_simultaneous_matrix_diagonalization_qdiag
